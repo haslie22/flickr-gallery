@@ -1,0 +1,23 @@
+$colors: (
+  "background": #e7e7e7,
+  "text": #ffffff,
+  "transparent": transparent,
+  "semitransparent-light": #ffffff5c,
+  "semitransparent-dark": #00000054,
+  "accent": #951923,
+);
+
+$font-prop: (
+  "author": 1.8rem 2.5rem 500 italic,
+  "button": 1.8rem 2.5rem 600,
+);
+
+$shadows: (
+  "card": 2px 2px 0.1px #D1D3D2,
+);
+
+$transitions: (
+  "opacity": opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+  "bg-color": background-color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+  "border": border 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+);

@@ -1,0 +1,11 @@
+@use "sass:map";
+
+html {
+  font-size: 10px;
+}
+
+.app-container {
+  background-color: map.get($colors, 'background');
+  width: 100%;
+  min-height: 100vh;
+}

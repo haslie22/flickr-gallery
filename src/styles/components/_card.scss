@@ -1,0 +1,68 @@
+@use "sass:map";
+
+@import './button';
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  justify-content: center;
+  color: map.get($colors, 'text');
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  box-shadow: map.get($shadows, 'card');
+
+  &:hover {
+    background-blend-mode: darken;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: map.get($colors, 'semitransparent-dark');
+    opacity: 0;
+    transition: map.get($transitions, 'opacity');
+  }
+}
+
+.card__info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  padding-block: 110px 20px;
+  z-index: 2;
+  transition: map.get($transitions, 'opacity');
+
+  .card:hover & {
+    opacity: 1;
+  }
+}
+
+.card__author {
+  @include font(map.get($font-prop, 'author') ...);
+
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 70px;
+    height: 2px;
+    display: block;
+    position: absolute;
+    top: -3px;
+    left: calc(50% - 70px/2);
+    background-color: map.get($colors, 'text');
+  }
+}

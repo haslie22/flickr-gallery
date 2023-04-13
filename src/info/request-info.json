@@ -1,0 +1,14 @@
+{
+  "apiKey": "59e8f46d5f789208fe62b33fe0f0d247",
+  "method": "flickr.photos.search",
+  "nojsoncallback": 1,
+  "tags": "nature",
+  "tagMode": "all",
+  "orientation": "landscape",
+  "contentType": 1,
+  "perPage": {
+    "default": 18,
+    "tablet": 6,
+    "mobile": 3
+  }
+}

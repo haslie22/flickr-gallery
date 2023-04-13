@@ -1,6 +1,9 @@
 @import './styles/base/normalize';
 
-.div {
-  color: blue;
-}
- 
+@import './styles/abstracts/variables';
+@import './styles/abstracts/mixins';
+@import './styles/abstracts/fonts';
+
+@import './styles/base/base';
+
+@import './styles/layout/gallery';

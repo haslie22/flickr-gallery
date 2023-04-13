@@ -1,0 +1,13 @@
+@use "sass:map";
+
+@import '../components/card';
+
+.gallery {
+  width: min(90%, 964px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(227px, 1fr));
+  gap: 30px;
+  padding-block: 26px;
+  margin-inline: auto;
+}

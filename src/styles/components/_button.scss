@@ -1,0 +1,23 @@
+@use "sass:map";
+
+.button {
+  @include font(map.get($font-prop, 'button') ...);
+
+  color: map.get($colors, 'text');
+  background-color: map.get($colors, 'transparent');
+  border: 1px solid map.get($colors, 'text');
+  border-radius: 22px;
+  padding: 10px 18px;
+  transition: map.get($transitions, 'bg-color');
+  transition: map.get($transitions, 'border');
+  cursor: pointer;
+
+  &:hover {
+    background-color: map.get($colors, 'semitransparent-light');
+    border: 1px solid map.get($colors, 'transparent');
+  }
+
+  & .clicked {
+    background-color: map.get($colors, 'accent');
+  }
+}

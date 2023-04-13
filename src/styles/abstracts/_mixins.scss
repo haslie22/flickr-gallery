@@ -1,0 +1,17 @@
+@mixin font(
+  $font-size,
+  $line-height,
+  $font-weight: 400,
+  $font-style: normal,
+  $letter-spacing: normal,
+  $font-family: "Noto Sans",
+) {
+  font: {
+    family: $font-family;
+    style: $font-style;
+    weight: $font-weight;
+    size: $font-size;
+  }
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+}
