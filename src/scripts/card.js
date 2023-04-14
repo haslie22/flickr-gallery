@@ -31,20 +31,18 @@ class Card {
     cardInfoContainer.append(cardAuthor, cardButton);
     card.append(cardInfoContainer);
 
-    console.log(card);
     return card;
   }
 
   async getPictureData() {
     const authorInfo = await getAuthorName(requestData, this.ownerID);
-    console.log(authorInfo);
     try {
       this.authorName = authorInfo.person.realname._content;
     } catch {
       try {
         this.authorName = authorInfo.person.username._content;
       } catch {
-        this.authorName = '';
+        this.authorName = 'Unknown author';
       }
     }
   }

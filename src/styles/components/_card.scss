@@ -54,6 +54,7 @@
   @include font(map.get($font-prop, 'author') ...);
 
   position: relative;
+  user-select: none;
 
   &::after {
     content: '';
