@@ -1,6 +1,7 @@
 {
   "apiKey": "59e8f46d5f789208fe62b33fe0f0d247",
   "method": "flickr.photos.search",
+  "methodFavourite": "flickr.photos.getInfo",
   "nojsoncallback": 1,
   "tags": "spring, nature",
   "tagMode": "all",

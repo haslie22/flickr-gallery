@@ -13,14 +13,7 @@
   background-position: center;
   border-radius: 5px;
   box-shadow: map.get($shadows, 'card');
-
-  &:hover {
-    background-blend-mode: darken;
-
-    &::after {
-      opacity: 1;
-    }
-  }
+  padding-inline: 20px;
 
   &::after {
     position: absolute;
@@ -29,8 +22,13 @@
     height: 100%;
     display: block;
     background-color: map.get($colors, 'semitransparent-dark');
+    border-radius: 5px;
     opacity: 0;
     transition: map.get($transitions, 'opacity');
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 }
 
@@ -54,6 +52,7 @@
   @include font(map.get($font-prop, 'author') ...);
 
   position: relative;
+  text-align: center;
   user-select: none;
 
   &::after {

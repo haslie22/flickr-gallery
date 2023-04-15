@@ -2,30 +2,31 @@ import requestData from '../info/request-info.json';
 import { getAuthorName } from "./api";
 
 class Card {
-  constructor(cardInfo) {
-    this.picture = cardInfo.url_l;
-    this.ownerID = cardInfo.owner;
-    this.pictureID = cardInfo.id;
-
-    this.pictureName = null;
+  constructor(id, authorID, pictureUrl) {
+    this.pictureUrl = pictureUrl;
+    this.authorID = authorID;
+    this.id = id;
   }
 
-  async create() {
-    await this.getPictureData();
+  async create(isFavourite = false) {
 
     const card = document.createElement('div');
     card.classList.add('card');
-    card.style.backgroundImage = `url('${this.picture}')`;
+    card.dataset.id = this.id;
+    card.style.backgroundImage = `url('${this.pictureUrl}')`;
 
     const cardInfoContainer = document.createElement('div');
     cardInfoContainer.classList.add('card__info');
 
     const cardAuthor = document.createElement('span');
     cardAuthor.classList.add('card__author');
-    cardAuthor.textContent = this.authorName;
+    cardAuthor.textContent = await this.getAuthorName();
 
     const cardButton = document.createElement('button');
     cardButton.classList.add('card__button', 'button');
+    if (isFavourite) {
+      cardButton.classList.add('clicked');
+    }
     cardButton.textContent = 'Favourite';
 
     cardInfoContainer.append(cardAuthor, cardButton);
@@ -34,17 +35,19 @@ class Card {
     return card;
   }
 
-  async getPictureData() {
-    const authorInfo = await getAuthorName(requestData, this.ownerID);
+  async getAuthorName() {
+    const authorInfo = await getAuthorName(requestData, this.authorID);
+    let authorName = '';
     try {
-      this.authorName = authorInfo.person.realname._content;
+      authorName = authorInfo.person.realname._content;
     } catch {
       try {
-        this.authorName = authorInfo.person.username._content;
+        authorName = authorInfo.person.username._content;
       } catch {
-        this.authorName = 'Unknown author';
+        authorName = 'Unknown author';
       }
     }
+    return authorName;
   }
 }
 

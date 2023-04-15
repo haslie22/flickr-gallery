@@ -17,7 +17,11 @@
     border: 1px solid map.get($colors, 'transparent');
   }
 
-  & .clicked {
+  &.clicked {
     background-color: map.get($colors, 'accent');
+
+    &:hover {
+      background-color: map.get($colors, 'accent-bright');
+    }
   }
 }

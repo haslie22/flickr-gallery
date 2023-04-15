@@ -1,10 +1,15 @@
 import requestData from '../info/request-info.json';
+
 import { getInfoFromAPI } from "./api";
+import { setLocalStorage, getLocalStorage } from './localStorage';
+
 import { Card } from "./card";
 
 class Gallery {
   constructor(container) {
     this.container = container;
+
+    this.savedPics = null;
 
     this.gallery = null;
     this.loader = null;
@@ -23,7 +28,9 @@ class Gallery {
   }
 
   addListeners() {
+    window.addEventListener('beforeunload', () => setLocalStorage('favourites', this.savedPics));
     window.addEventListener('scroll', () => this.checkScroll());
+    this.container.addEventListener('click', (e) => this.manageFavourites(e));
   }
 
   async create() {
@@ -47,6 +54,7 @@ class Gallery {
 
     this.container.append(gallery, loader);
 
+    await this.displayFavourites();
     await this.fill();
   }
 
@@ -57,9 +65,11 @@ class Gallery {
     this.totalPages = cardsData.photos.pages;
 
     for (const photoData of cardsData.photos.photo) {
-      const card = new Card(photoData);
+      if (this.savedPics.has(photoData.id)) continue;
+      const card = new Card(photoData.id, photoData.owner, photoData.url_l);
       this.gallery.append(await card.create());
     }
+    this.isLoading = false;
   }
 
   handleLoader() {
@@ -89,9 +99,41 @@ class Gallery {
 
       setTimeout(() => {
         this.fill();
-        this.isLoading = false;
         this.handleLoader();
-      }, 1000);
+      }, 1500);
+    }
+  }
+
+  manageFavourites(e) {
+    if (e.target !== e.currentTarget) {
+      if (e.target.classList.contains('card__button')) {
+        if (e.target.classList.contains('clicked')) {
+          console.log(e.target.closest('.card').dataset.pictureid);
+          this.savedPics.delete(e.target.closest('.card').dataset.id);
+          e.target.classList.remove('clicked');
+        } else {
+          this.savedPics.add(e.target.closest('.card').dataset.id);
+          e.target.classList.add('clicked');
+        }
+      }
+    }
+    e.preventDefault();
+  }
+
+  async displayFavourites() {
+    this.savedPics = new Set(getLocalStorage('favourites'));
+
+    for (let savedPicID of this.savedPics) {
+      const url = `https://api.flickr.com/services/rest/?method=${requestData.methodFavourite}&api_key=${requestData.apiKey}&photo_id=${savedPicID}&format=json&nojsoncallback=${requestData.nojsoncallback}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const photoData = data.photo;
+      const photoUrl = `https://live.staticflickr.com/${photoData.server}/${photoData.id}_${photoData.secret}.jpg`;
+
+      const card = new Card(photoData.id, photoData.owner.nsid, photoUrl);
+      this.gallery.append(await card.create(true));
     }
   }
 }
