@@ -1,5 +1,5 @@
-const getInfoFromAPI = async (apiData, pageNum = 1)  => {
-  const url = `https://www.flickr.com/services/rest/?method=${apiData.method}&api_key=${apiData.apiKey}&tags=${apiData.tags}&tag_mode=${apiData.tagMode}&orientation=${apiData.orientation}&content_type=${apiData.contentType}&per_page=${apiData.perPage}&page=${pageNum}&extras=url_l&format=json&nojsoncallback=${apiData.nojsoncallback}`;
+const getInfoFromAPI = async (apiData, extras, pageNum = 1)  => {
+  const url = `https://www.flickr.com/services/rest/?method=${apiData.method}&api_key=${apiData.apiKey}&tags=${apiData.tags}&tag_mode=${apiData.tagMode}&orientation=${apiData.orientation}&content_type=${apiData.contentType}&per_page=${apiData.perPage}&page=${pageNum}&extras=${extras}&format=json&nojsoncallback=${apiData.nojsoncallback}`;
   const res = await fetch(url);
   const data = await res.json();
 

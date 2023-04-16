@@ -16,6 +16,7 @@ class Gallery {
 
     this.currentPage = 1;
     this.totalPages = null;
+    this.imageSize = '';
 
     this.scrollTop = null;
     this.scrollHeight = null;
@@ -23,12 +24,16 @@ class Gallery {
 
     this.isLoading = true;
 
+    this.TABLET_BREAKPOINT = 786;
+    this.MOBILE_BREAKPOINT = 453;
+
     this.addListeners();
     this.create();
   }
 
   addListeners() {
     window.addEventListener('beforeunload', () => setLocalStorage('favourites', this.savedPics));
+    window.addEventListener('DOMContentLoaded', () => this.checkViewport());
     window.addEventListener('scroll', () => this.checkScroll());
     this.container.addEventListener('click', (e) => this.manageFavourites(e));
   }
@@ -61,12 +66,12 @@ class Gallery {
   async fill() {
     if (!this.isLoading) return;
 
-    const cardsData = await getInfoFromAPI(requestData, this.currentPage);
+    const cardsData = await getInfoFromAPI(requestData, this.imageSize, this.currentPage);
     this.totalPages = cardsData.photos.pages;
 
     for (const photoData of cardsData.photos.photo) {
       if (this.savedPics.has(photoData.id)) continue;
-      const card = new Card(photoData.id, photoData.owner, photoData.url_l);
+      const card = new Card(photoData.id, photoData.owner, photoData[this.imageSize]);
       this.gallery.append(await card.create());
     }
     this.isLoading = false;
@@ -108,7 +113,6 @@ class Gallery {
     if (e.target !== e.currentTarget) {
       if (e.target.classList.contains('card__button')) {
         if (e.target.classList.contains('clicked')) {
-          console.log(e.target.closest('.card').dataset.pictureid);
           this.savedPics.delete(e.target.closest('.card').dataset.id);
           e.target.classList.remove('clicked');
         } else {
@@ -135,6 +139,13 @@ class Gallery {
       const card = new Card(photoData.id, photoData.owner.nsid, photoUrl);
       this.gallery.append(await card.create(true));
     }
+  }
+
+  checkViewport() {
+    const viewportWidth = document.documentElement.clientWidth;
+    if (viewportWidth <= this.TABLET_BREAKPOINT && viewportWidth > this.MOBILE_BREAKPOINT) this.imageSize = 'url_m';
+    else if (viewportWidth <= this.MOBILE_BREAKPOINT) this.imageSize = 'url_s';
+    else this.imageSize = 'url_l';
   }
 }
 
