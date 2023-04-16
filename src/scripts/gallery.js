@@ -137,6 +137,7 @@ class Gallery {
       const photoUrl = `https://live.staticflickr.com/${photoData.server}/${photoData.id}_${photoData.secret}.jpg`;
 
       const card = new Card(photoData.id, photoData.owner.nsid, photoUrl);
+
       this.gallery.append(await card.create(true));
     }
   }

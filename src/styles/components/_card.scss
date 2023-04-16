@@ -37,9 +37,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: flex-end;
+  // gap: 20px;
   opacity: 0;
-  padding-block: 110px 20px;
+  padding-bottom: 20px;
   z-index: 2;
   transition: map.get($transitions, 'opacity');
 
@@ -48,12 +49,20 @@
   }
 }
 
+.card__name {
+  @include font(map.get($font-prop, 'name') ...);
+
+  text-align: center;
+  margin-bottom: 7px;
+}
+
 .card__author {
   @include font(map.get($font-prop, 'author') ...);
 
   position: relative;
   text-align: center;
   user-select: none;
+  margin-bottom: 20px;
 
   &::after {
     content: '';

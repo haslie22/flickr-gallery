@@ -1,5 +1,5 @@
 import requestData from '../info/request-info.json';
-import { getAuthorName } from "./api";
+import { getAuthorName, getPictureName } from "./api";
 
 class Card {
   constructor(id, authorID, pictureUrl) {
@@ -18,6 +18,10 @@ class Card {
     const cardInfoContainer = document.createElement('div');
     cardInfoContainer.classList.add('card__info');
 
+    const cardName = document.createElement('span');
+    cardName.classList.add('card__name');
+    cardName.textContent = await this.getPictureName();
+
     const cardAuthor = document.createElement('span');
     cardAuthor.classList.add('card__author');
     cardAuthor.textContent = await this.getAuthorName();
@@ -29,7 +33,7 @@ class Card {
     }
     cardButton.textContent = 'Favourite';
 
-    cardInfoContainer.append(cardAuthor, cardButton);
+    cardInfoContainer.append(cardName, cardAuthor, cardButton);
     card.append(cardInfoContainer);
 
     return card;
@@ -48,6 +52,17 @@ class Card {
       }
     }
     return authorName;
+  }
+
+  async getPictureName() {
+    const pictureInfo = await getPictureName(requestData, this.id);
+    let pictureName = '';
+    try {
+      pictureName = pictureInfo.photo.title._content;
+    } catch {
+      pictureName = 'Unknown';
+    }
+    return pictureName;
   }
 }
 

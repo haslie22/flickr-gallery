@@ -14,4 +14,12 @@ const getAuthorName = async (apiData, authorID) => {
   return data;
 }
 
-export { getInfoFromAPI, getAuthorName };
+const getPictureName = async (apiData, photoID) => {
+  const url = `https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${apiData.apiKey}&photo_id=${photoID}&format=json&nojsoncallback=${apiData.nojsoncallback}`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  return data;
+}
+
+export { getInfoFromAPI, getAuthorName, getPictureName };
