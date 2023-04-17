@@ -24,8 +24,7 @@ class Gallery {
 
     this.isLoading = true;
 
-    this.TABLET_BREAKPOINT = 786;
-    this.MOBILE_BREAKPOINT = 453;
+    this.LAYOUT_BREAKPOINT = 1066;
 
     this.addListeners();
     this.create();
@@ -143,10 +142,9 @@ class Gallery {
   }
 
   checkViewport() {
-    const viewportWidth = document.documentElement.clientWidth;
-    if (viewportWidth <= this.TABLET_BREAKPOINT && viewportWidth > this.MOBILE_BREAKPOINT) this.imageSize = 'url_m';
-    else if (viewportWidth <= this.MOBILE_BREAKPOINT) this.imageSize = 'url_s';
-    else this.imageSize = 'url_l';
+    const galleryWidth = window.getComputedStyle(this.gallery).getPropertyValue('width');
+    if (galleryWidth <= this.LAYOUT_BREAKPOINT) this.imageSize = 'url_l';
+    else this.imageSize = 'url_m';
   }
 }
 
