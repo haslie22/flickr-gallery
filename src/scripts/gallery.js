@@ -32,7 +32,6 @@ class Gallery {
 
   addListeners() {
     window.addEventListener('beforeunload', () => setLocalStorage('favourites', this.savedPics));
-    window.addEventListener('DOMContentLoaded', () => this.checkViewport());
     window.addEventListener('scroll', () => this.checkScroll());
     this.container.addEventListener('click', (e) => this.manageFavourites(e));
   }
@@ -58,6 +57,7 @@ class Gallery {
 
     this.container.append(gallery, loader);
 
+    this.checkViewport();
     await this.displayFavourites();
     await this.fill();
   }
